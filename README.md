@@ -1,38 +1,3 @@
 We have to access an enterprise API endpoint to gather Usage data available as a REST API. 
 
 We are attempting to leverage Datasource V2 API to collect data in parallel from the endpoints. The input partitions seem to be created correctly. However and the InputPartitionReader seems to have fetched the data right as well, however, it seems to keep going infinitely between the next() and get() operations of the InputPartitionReader. 
-Below are the details of the email sent to Spark User group:
-
-
-
-Challenges with Datasource V2 API
-ApacheFoundation/SPARK
-
-Sunita Arvind <sunitarvind@gmail.com>
-Tue, Jun 25, 2019, 5:35 PM
-to user
-
-Hello Spark Experts,
-
-I am having challenges using the DataSource V2 API. I created a mock
-
-The input partitions seem to be created correctly. The below output confirms that:
-19/06/23 16:00:21 INFO root: createInputPartitions
-19/06/23 16:00:21 INFO root: Create a partition for abc
-
-The InputPartitionReader seems to have fetched the data right as well, however, it seems to keep going infinitely between the next() and get() operations of the InputPartitionReader while on the cluster.
-
-I tried to mock this and here is the code for the mockup - *https://github.com/skopp002/SparkDatasourceV2.git *
-
-However, the issue does not surface in the mock project. One concern that does seem to show up is the duplication of records that I had noticed once in production as well. There is only one record with usage value of "1.2006451E7" in mockdata.json. But there are multiple records in the load result. Could this be having the effect of infinite data in production? In production, even for a few KBs I hit the error below.
-```2019-06-23 16:07:29 INFO UnsafeExternalSorter:209 - Thread 47 spilling sort data of 1984.0 MB to disk (50 times so far)
-2019-06-23 16:07:31 INFO UnsafeExternalSorter:209 - Thread 47 spilling sort data of 1984.0 MB to disk (51 times so far)
-2019-06-23 16:07:33 INFO UnsafeExternalSorter:209 - Thread 47 spilling sort data of 1984.0 MB to disk (52 times so far)```
-
-But could not reproduce the exact error here in the mock project. Probably the data is too small to surface the problem.
-
-Can someone review the code and tell me if I am doing something wrong?
-
-regards
-Sunita
-	
